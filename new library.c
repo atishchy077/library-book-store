@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <conio.h>
+#include <string.h>
 #include <stdlib.h>
 
 struct books 
@@ -19,16 +21,20 @@ struct student
 };
 struct student s[50];
 
+void addstudent(void);   // add student Function declaration
+void addbook(void);
+void booklist(void); // booklist function declaration
+
 int main()
 {
-	int i,user_admin;
+	int user_admin;
 	printf("********Welcome to Library Book Store System*********\n");
 	printf("Choose one of them\n");
     printf("\t0. User \n\t1. Admin\n");
 	scanf("%d",&user_admin);
 	if(user_admin==0){
-		FILE*fp;
-		int option,i,key,flag,position;
+		int option,key,flag=0,position=0,i;
+		while(1){                        //it will always be true until break is used.       
 			printf("\t======>Welcome to User Menu<======\n");
 			printf("\t\nPlease choose one option\n\n");
 			printf("\t 1. View Books\n");
@@ -38,22 +44,17 @@ int main()
 			scanf("%d",&option);
 			switch (option){
 				case 1:
-					printf("===List of Books===\n");
-					
-					printf("Book id :%d\t Book name :%s\t Author name :%s\n",b[i].book_id,b[i].book_name,b[i].author_name);
-				
+				printf("implementation for view book is remaining\n");
 					break;
 					case 2:
-						printf("Enter Book information which you want to search\n");
+						printf(" Enter Book information which you want to search\n");
 					    printf(" Enter Book ID to Search\t\n");
 						scanf("%d",&key);
-						for(i=0;i<50;i++){
-							if(b[i].book_id==key){
+							 if(b[i].book_id == key){
 								flag=1;
 								position=i;
 								break;
 							}
-						}
 						if(flag==1){
 							printf("===Searched Book Details :===\n");
 							printf("\n Book id : %d",b[position].book_id);
@@ -66,21 +67,22 @@ int main()
 						break;
 						case 3:
 							exit(0);
+							break;
+							
 							deafult:
 							printf("You have entered invalid option\n");
 							}
 							printf("\n\n Press any key to continue...");
 							getch();
+			    }
 							
 		}else{
-			FILE*fp;
-			int option,student_id,student_name,student_program,i,key,position=0,flag;
-			adminMenu:
+			int option,student_id,student_name,student_program,i,key,position=0,flag,n;
 			printf("======>Welcome to Admin Menu<======\n");
 			printf("\t Please choose one option\n");
-			printf("\t 1. View Books\n");
+			printf("\t 1. Add New Book\n");           //running module
 			printf("\t 2. Search Book\n");
-			printf("\t 3. Add New Book\n");
+			printf("\t 3. view Book\n");
 			printf("\t 4. Add Student Details\n");
 			printf("\t 5. Issue book\n");
 			printf("\t 6. View Issued Book List\n");
@@ -90,20 +92,15 @@ int main()
 				case 0:
 					exit(0);
 				case 1:
-					printf("===List of Books===\n");
-					fp =fopen("studentrecord.txt","r");
-					if(fp == NULL){
-					printf("No records found or error in opening file!\n");
-					}
+					printf("addbook function implementation is also remaining");
 					break;
-					printf("\n Student Records:\n");
 					
 					case 2:
 						printf("===Searched Book Details===\n");
 						printf(" Enter Book ID to Search\t");
 						scanf("%d",&key);
 						for(i=0;i<50;i++){
-							if(b[i].book_id==key){
+					      	if(b[i].book_id==key){
 								flag=1;
 								position=i;
 								break;
@@ -118,41 +115,47 @@ int main()
 						}
 						break;
 						case 3:
-							printf("===Adding Book Details===\n");
+							printf("Book list not Implemented\n");
 							break;
 						    case 4:
-						    	if(position>=50){
-						    		printf("Database is full\n");
-						    		break;
-								}
-						    	printf("===Adding Student Details===\n\n");
-						    	printf("Enter Student id \n");
-					        	scanf("%d",&s[position].student_id);
-						        printf("Enter Student Name\n");
-						        scanf("%s",s[position].student_name);
-						        printf("Enter Student Semester\n");
-						        scanf("%d",&s[position].student_semester);//   %[^\n]= read wit space
-						        printf("Enter Student Program\n");
-						        scanf("%s",s[position].student_program);
-						        printf("Enter Student Contact no.\n");
-						        scanf("%14s",s[position].student_contact);
-						        //Open file in append mode
-						        fp = fopen("studentrecord.txt","w");
-						        if(fp == NULL){
-						        	printf("Error in opening file!\n");
-						        	break;
-								}
-								//Write student data to file 
-								fprintf(fp, "d:%s:%d:%s:%d \n",s[position].student_id,s[position].student_name,s[position].student_semester,s[position].student_program,s[position].student_contact);
-								fclose(fp);
-								position++;
-								printf("Student added successfully!\n");
+						    	addstudent();
+						    	printf("Add student not Implemented\n");
 						        break;
-						    getch ();
-						    goto adminMenu;
+						    }
+						        return 0;
 						}
-	        }
-return 0;
+						void booklist(void){
+                            int i;
+                            printf("\n=== All Books ===\n");
+                            for (i = 0; i < 50; i++) {
+                                if (b[i].book_id != 0) {
+                                    printf("ID: %d, Name: %s, Author: %s\n",
+                                          b[i].book_id, b[i].book_name, b[i].author_name);
+        }
+    }
 }
+
+						}
+void addstudent(){
+static int i=0;
+if(i>=50){
+	printf("student list is full\n");
+	return;
+}
+				printf("===Adding Student Details===\n\n");
+				printf("Enter Student id \n");
+				scanf("%d",&s[i].student_id);
+			    printf("Enter Student Name\n");
+				scanf("%s",&s[i].student_name);
+				printf("Enter Student Semester in Number\n");
+			    scanf("%d",&s[i].student_semester);
+				printf("Enter Student Program \n");
+				scanf("%s",&s[i].student_program);
+			    printf("Enter Student Contact no.\n");
+			    scanf("%d",&s[i].student_contact);
+			    printf("students added successfully");
+			    i++;
+}
+
 
 
